@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400');
+
+.forecast{
+  max-width: 500px;
+  width: 100%;
+  min-height:100%;
+  margin: 0 auto;
+  font-family: 'Open Sans', sans-serif;
+  height: 100%;
+}
+
+.date-headline{
+  background-color: #3eb1df;
+  height: 3em;
+  padding: 1em;
+  font-weight: 300;
+
+}
+
+/*Main Content*/
+.weather{
+  background-color: #21a5da;
+  height: 100%;
+  font-weight: 300;
+  width: 100%;
+  position: relative;
+}
+
+.weather .weather-topic{
+  font-size: 2em;
+  padding-top: 1em;
+}
+
+.weather .weather-icon{
+  /*width: 30%;*/
+  margin: 0 auto;
+}
+
+.weather-icon div{
+  margin: 0 auto;
+  border-radius: 50%;
+}
+
+.weather .weather-temp{
+  font-size: 10em;
+  margin-top: -0.5em;
+  margin-bottom: -0.2em;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.weather .weather-temp .circle{
+  background: #FFF;
+  border-radius: 50%;
+  height:50px;
+  width:50px;
+}
+
+.weather .weather-city{
+  font-size: 1.5em;
+  margin-bottom: 2em;
+}
+/*Circles*/
+.circle1{
+  background-color: #25a7db;
+  height: 19em;
+  width: 19em;
+}
+.circle2{
+  background-color: #30abdd;
+  height: 17em;
+  width: 17em;
+  position: absolute;
+  margin: 1em !important;
+}
+.circle3{
+  background-color: #3fb1df;
+  height: 15em;
+  width: 15em;
+  position: absolute;
+  margin: 1em !important;
+}
+.circle4{
+  background-color: #50b8e2;
+  height: 13em;
+  width: 13em;
+  position: absolute;
+  margin: 1em !important;
+}
+.circle5{
+  background-color: #60bee5;
+  height: 11em;
+  width: 11em;
+  position: absolute;
+  margin: 1em !important;
+}
+
+/*Date Button*/
+
+.buttons{
+  width: 100%;
+  background-color: #3eb1df;
+}
+.buttons .row{
+  margin-right: 0;
+  margin-left: 0;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.button-icon {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.buttons .row .col:hover{
+  background-color: #1c9dd1;
+}
+
+.buttons .row .col{
+  padding: 0;
+}
