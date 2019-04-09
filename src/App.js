@@ -4,6 +4,7 @@ import axios from "axios/index";
 import './style/App.css';
 import WeatherIcon from "./components/WeatherIcon"
 import DateButton from "./components/DateButton"
+import {CurrentDate} from "./utils"
 
 class App extends Component {
     constructor(props) {
@@ -42,7 +43,7 @@ class App extends Component {
                     <DateButton isPressed={this.state.activeButton === index}
                                 id={index}
                                 parent={this}
-                                day={this.parseUnixDate(obj.dt)}
+                                day={CurrentDate(obj.dt)}
                                 main={obj.weather[0].main}
                     />
                 </Col>
@@ -59,7 +60,7 @@ class App extends Component {
                 <div className={"weather"}>
                     <div className={"date-headline"}>
                         <div>
-                            {this.parseUnixDate(currentDay.dt, this.state.activeButton)}
+                            {CurrentDate(currentDay.dt, this.state.activeButton)}
                         </div>
                     </div>
                     <div className={"weather-topic"}>
@@ -80,7 +81,7 @@ class App extends Component {
                     </div>
                     <div className={"weather-temp"}>
                         {Math.round(currentDay.temp.day - 273.15)}
-                        <sup style={{fontSize:"0.7em"}}>
+                        <sup style={{fontSize: "0.7em"}}>
                             °
                         </sup>
                     </div>
@@ -95,28 +96,6 @@ class App extends Component {
                 </div>
             </div>
         );
-    }
-
-    parseUnixDate(unixTime, day = -1) {
-        let a = new Date(unixTime * 1000);
-        let months = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
-        let year = a.getFullYear();
-        let month = months[a.getMonth()];
-        let date = a.getDate();
-        if (day === -1) {
-            return date + ' ' + month
-        } else {
-            switch (day) {
-                case 0:
-                    return 'Сегодня, ' + date + ' ' + month + ' ' + year;
-                case 1:
-                    return 'Завтра, ' + date + ' ' + month + ' ' + year;
-                case 2:
-                    return 'Послезавтра, ' + date + ' ' + month + ' ' + year;
-                default:
-                    return '...'
-            }
-        }
     }
 }
 
