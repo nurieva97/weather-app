@@ -1,13 +1,12 @@
 import React, {Component} from "react"
 import PropTypes from 'prop-types';
-import WeatherIcon from "./WeatherIcon"
+import {Icons, CurrentDate} from "./utils"
 
 class DateButton extends Component {
     static propTypes = {
         id: PropTypes.number.isRequired,
         parent: PropTypes.object.isRequired,
-        day: PropTypes.string.isRequired,
-        main: PropTypes.string.isRequired,
+        day: PropTypes.object.isRequired,
         isPressed: PropTypes.bool,
     };
 
@@ -19,21 +18,21 @@ class DateButton extends Component {
     }
 
     onCLick = () => {
-        this.state.parent.changeActiveButton(this.props.id);
+        this.state.parent.goTo(this.props.id);
     };
 
     render() {
         return (
             <div
                 className={"date-button"}
-                style={this.props.isPressed || false ? {backgroundColor: "#1c9dd1"} : {}}
+                style={this.props.isPressed ? {backgroundColor: "#1c9dd1"} : {}}
                 onClick={this.onCLick}
             >
                 <div className={"button-icon"}>
-                    <WeatherIcon name={this.props.main.toLowerCase()}/>
+                    {Icons[this.props.day.weather[0].main.toLowerCase()]}
                 </div>
                 <div className={"button-text"}>
-                    {this.props.day}
+                    {CurrentDate(this.props.day.dt)}
                 </div>
             </div>
         )

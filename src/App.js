@@ -2,16 +2,16 @@ import React, {Component} from 'react';
 import {Row, Col} from 'react-bootstrap';
 import axios from "axios/index";
 import './style/App.css';
-import WeatherIcon from "./components/WeatherIcon"
+import WeatherInfo from "./components/WeatherInfo"
 import DateButton from "./components/DateButton"
-import {CurrentDate} from "./utils"
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeButton: 0,
+            currentIndex: 0,
             days: [],
+            translateValue: 0
         }
     };
 
@@ -30,69 +30,74 @@ class App extends Component {
             })
     }
 
-    changeActiveButton = (id) => {
-        this.setState({
-            activeButton: id
-        })
+    goTo = (id) => {
+        let {currentIndex} = this.state;
+        if (currentIndex === id)
+            return;
+
+        if (currentIndex < id) {
+            let diff = id - currentIndex;
+            this.setState(prevState => ({
+                currentIndex: prevState.currentIndex + diff,
+                translateValue: prevState.translateValue + -(this.slideWidth() * diff)
+            }));
+        }
+
+        if (currentIndex > id) {
+            let diff = currentIndex - id;
+            this.setState(prevState => ({
+                currentIndex: prevState.currentIndex - diff,
+                translateValue: prevState.translateValue + (this.slideWidth() * diff)
+            }));
+        }
+    };
+
+    slideWidth = () => {
+        return document.querySelector('.weather-info').clientWidth
     };
 
     render() {
-        const buttons = this.state.days.map((obj, index) => {
-            return (
-                <Col key={index}>
-                    <DateButton isPressed={this.state.activeButton === index}
-                                id={index}
-                                parent={this}
-                                day={CurrentDate(obj.dt)}
-                                main={obj.weather[0].main}
-                    />
-                </Col>
-            );
-        });
-        const currentDay = this.state.days[this.state.activeButton];
         if (this.state.days.length === 0) {
             return (
                 <div>Loading...</div>
             );
         }
+        const buttons = this.state.days.map((obj, index) => {
+            return (
+                <Col key={index}>
+                    <DateButton isPressed={this.state.currentIndex === index}
+                                id={index}
+                                parent={this}
+                                day={obj}
+                    />
+                </Col>
+            );
+        });
+        const daysSlider = this.state.days.map((object, index) => {
+            return (
+                <WeatherInfo day={object}
+                             key={index}
+                             id={index}/>
+            )
+        });
         return (
             <div className="forecast">
                 <div className={"weather"}>
-                    <div className={"date-headline"}>
-                        <div>
-                            {CurrentDate(currentDay.dt, this.state.activeButton)}
+                    <div className={"slider"}>
+                        <div className="slider-wrapper"
+                             style={{
+                                 transform: `translateX(${this.state.translateValue}px)`,
+                                 transition: 'transform ease-out 0.45s'
+                             }}>
+                            {daysSlider}
                         </div>
                     </div>
-                    <div className={"weather-topic"}>
-                        Переменная облачность
-                    </div>
-                    <div className={"weather-icon"}>
-                        <div className={"circle1"}>
-                            <div className={"circle2"}>
-                                <div className={"circle3"}>
-                                    <div className={"circle4"}>
-                                        <div className={"circle5"}>
-                                            <WeatherIcon name={currentDay.weather[0].main.toLowerCase()}/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={"weather-temp"}>
-                        {Math.round(currentDay.temp.day - 273.15)}
-                        <sup style={{fontSize: "0.7em"}}>
-                            °
-                        </sup>
-                    </div>
-                    <div className={"weather-city"}>
-                        Казань
-                    </div>
-                    <div className={"buttons"}>
-                        <Row>
-                            {buttons}
-                        </Row>
-                    </div>
+
+                </div>
+                <div className={"buttons"}>
+                    <Row>
+                        {buttons}
+                    </Row>
                 </div>
             </div>
         );
